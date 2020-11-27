@@ -1,0 +1,26 @@
+﻿<Window x:Name="Auth" x:Class="ConcentrationTest.AuthForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConcentrationTest"
+        mc:Ignorable="d"
+        AllowsTransparency="True" Background="Transparent"
+        WindowStyle="None"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Авторизация" Height="400" Width="480"
+        MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen">
+    <Grid Background="Transparent">
+        <Border Width="480" Height="400" Background="#e6e6fa" VerticalAlignment="Center" Padding="10" CornerRadius="30" BorderThickness="2" BorderBrush="DarkBlue">
+            <StackPanel>
+                <TextBlock IsHyphenationEnabled="True" TextWrapping="Wrap" Text="Вход в программу для проверки внимания" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 0 0 10"/>
+                <Label Content="Еще не зарегистрированы?" VerticalAlignment="Center" FontSize="16" Margin="15 0 0 10" Style="{StaticResource MaterialDesignLabel}"/>
+                <Button HorizontalAlignment="Left" Content="Зарегистрироваться" FontSize="16" Margin="15 0 0 5" Click="RedirectToReg_Click"/>
+                <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" FontSize="16" Margin="0 5" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <PasswordBox x:Name="textBoxPass" materialDesign:HintAssist.Hint="Введите пароль" FontSize="16" Margin="0 5" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+                <Button Content="Авторизоваться" Margin="20 30 20 0" Click="Auth_Click"/>
+                <Button Width="100" Content="Выход" Margin="0 30" Click="Exit_Click"></Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

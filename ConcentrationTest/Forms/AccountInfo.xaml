@@ -1,0 +1,56 @@
+﻿<Window x:Class="ConcentrationTest.AccountInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConcentrationTest"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Личный кабинет" Height="550" Width="600"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent"
+        MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Border MinWidth="500" Height="550" MaxWidth="600"  Background="#e6e6fa" VerticalAlignment="Center" Padding="10" CornerRadius="30" BorderThickness="2" BorderBrush="DarkBlue">
+            <StackPanel>
+                <TextBlock x:Name="title"  IsHyphenationEnabled="True" Text="Title placeholder" TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0 0 0 10"/>
+                <Grid>
+                    <PasswordBox x:Name="textBoxPass" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="Введите новый пароль" Margin="10 5" FontSize="17" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+                    <Label x:Name="oldPass" HorizontalAlignment="Right" FontSize="17" Margin="5 15 30 5"/>
+                </Grid>
+                <Line X1="250" Y1="0" X2="550" Y2="0" Stroke="#c71585" StrokeThickness="3" />
+
+                <Grid>
+                    <TextBox x:Name="emailBox" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="Введите новый e-mail" Margin="10 5" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    <Label x:Name="oldEmail" HorizontalAlignment="Right"  Margin="5 15 30 5" FontSize="17" materialDesign:HintAssist.Hint="Старый пароль" Style="{StaticResource MaterialDesignLabel}"/>
+                </Grid>
+                <Line X1="250" Y1="0" X2="550" Y2="0" Stroke="#c71585" StrokeThickness="3" />
+                <Grid>
+                    <DatePicker x:Name="datePicker" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="Измените дату рождения" FontSize="16" Margin="10 5" Focusable="False" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+                    <Label x:Name="oldDate" HorizontalAlignment="Right" materialDesign:HintAssist.Hint="Старая дата рождения" FontSize="16" Margin="5 15 30 5" Style="{StaticResource MaterialDesignLabel}"/>
+                </Grid>
+                <Line X1="250" Y1="0" X2="550" Y2="0" Stroke="#c71585" StrokeThickness="3" />
+                <Grid>
+                    <ComboBox Name="GenderComboBox" Width="200" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="Измените гендер" Margin="10 5" FontSize="16" Height="48" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <ComboBoxItem>
+                            <TextBlock Width="200" Text="Мужской"/>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Width="200" Text="Женский"/>
+                        </ComboBoxItem>
+                    </ComboBox>
+                    <Label x:Name="oldGender" HorizontalAlignment="Right" materialDesign:HintAssist.Hint="Старый гендер" FontSize="16" Margin="5 15 30 5" Focusable="False" Style="{StaticResource MaterialDesignLabel}"/>
+                </Grid>
+                <Line X1="250" Y1="0" X2="550" Y2="0" Stroke="#c71585" StrokeThickness="3" />
+
+                <Border Style="{StaticResource MyBorderStyle}" BorderBrush="#4b0082" HorizontalAlignment="Center" Margin ="15 50 15 0" Padding="5">
+                    <TextBlock Text="Внимание! Изменены будут только те поля, в которых есть данные!" FontSize="16" FontWeight="DemiBold" />
+                </Border>
+                
+                <Button Content="Сохранить изменения" Margin="20 30 20 0" Click="Save_Click"/>
+                <Button Width="100" Content="Назад" Margin="0 50" Click="Exit_Click"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

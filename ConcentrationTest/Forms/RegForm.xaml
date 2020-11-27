@@ -1,0 +1,36 @@
+﻿<Window x:Name="Reg" x:Class="ConcentrationTest.RegForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConcentrationTest"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Авторизация" Height="550" Width="500"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent"
+        MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen">
+    <Grid Background="Transparent">
+        <Border Width="500" Height="550" Background="#e6e6fa" VerticalAlignment="Center" Padding="10" CornerRadius="30" BorderThickness="2" BorderBrush="DarkBlue">
+            <StackPanel>
+                <TextBlock IsHyphenationEnabled="True" TextWrapping="Wrap" Text="Регистрация в системе" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0 0 0 10"/>
+                <Label Content="Уже зарегистрированы?" VerticalAlignment="Center" FontSize="16" Margin="15 0 0 10" Style="{StaticResource MaterialDesignLabel}"/>
+                <Button HorizontalAlignment="Left" Content="Войти" Margin="15 0 0 5" Click="RedirectToAuth_Click"/>
+                <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <PasswordBox x:Name="textBoxPass" materialDesign:HintAssist.Hint="Введите пароль" Margin="0 5" FontSize="17" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+                <TextBox x:Name="emailBox" materialDesign:HintAssist.Hint="Введите e-mail" Margin="0 5" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <DatePicker x:Name="datePicker" materialDesign:HintAssist.Hint="Выберите дату рождения" FontSize="16" Margin="0 5" Focusable="False" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+                <ComboBox Name="GenderComboBox" materialDesign:HintAssist.Hint="Выберите пол" Margin="0 5" FontSize="16" Height="48" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    <ComboBoxItem>
+                        <TextBlock Text="Мужской"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Женский"/>
+                    </ComboBoxItem>
+                </ComboBox>
+                    <Button Content="Зарегистрироваться" Margin="20 30 20 0" Click="ButtonRegClick"/>
+                <Button Width="100" Content="Выход" Margin="0 30" Click="Exit_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
