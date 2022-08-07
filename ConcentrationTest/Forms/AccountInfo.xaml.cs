@@ -12,13 +12,15 @@ namespace ConcentrationTest
     /// </summary>
     public partial class AccountInfo : Window
     {
-        AppContext db;
-        User user = new User();
+        User user;
         public AccountInfo()
         {
             InitializeComponent();
-            db = new AppContext();
-            user = user.GetCurrentUserInfo(db, UserSaver.user.id);              // берем всю информацию о пользователе с таким логином по его id
+
+            using (AppContext db = new AppContext())
+            {
+                user = User.GetCurrentUserInfo(db, UserSaver.user.id);              // берем всю информацию о пользователе с таким логином по его id
+            }
 
             title.Text = "Личный кабинет пользователя " + UserSaver.user.Login;
 
@@ -27,6 +29,8 @@ namespace ConcentrationTest
             oldDate.Content = "Текущая дата рождения: " + user.Birthdate;
             oldGender.Content = "Текущий пол: " + user.Gender;          
         }
+
+
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -38,7 +42,7 @@ namespace ConcentrationTest
             string gender = user.Gender;
             bool error = false;
 
-            if (!String.IsNullOrEmpty(textBoxPass.Password.Trim()))
+            if (!string.IsNullOrEmpty(textBoxPass.Password.Trim()))
             {
                 if (pass.Length < 5)
                 {
@@ -54,7 +58,7 @@ namespace ConcentrationTest
                 }
             }
 
-            if (!String.IsNullOrEmpty(emailBox.Text.Trim()))
+            if (!string.IsNullOrEmpty(emailBox.Text.Trim()))
             {
                 if (email.Length < 5)
                 {
@@ -89,20 +93,23 @@ namespace ConcentrationTest
                        
             if(!error)
             {
-                User user = db.Users.Single(b => b.id == UserSaver.user.id);      // найти текущего пользователя по его id и изменить данные
-                user.Password = pass;
-                user.Email = email;
-
-                if (!String.IsNullOrEmpty(datePicker.SelectedDate?.ToShortDateString()))
+                using (AppContext db = new AppContext())
                 {
-                    user.Birthdate = datePicker.SelectedDate?.ToShortDateString();
-                }
+                    User user = db.Users.Single(b => b.id == UserSaver.user.id);      // найти текущего пользователя по его id и изменить данные
+                    user.Password = pass;
+                    user.Email = email;
 
-                if (!String.IsNullOrEmpty(GenderComboBox.Text.Trim()))
-                {
-                    user.Gender = GenderComboBox.Text.Trim();
+                    if (!string.IsNullOrEmpty(datePicker.SelectedDate?.ToShortDateString()))
+                    {
+                        user.Birthdate = datePicker.SelectedDate?.ToShortDateString();
+                    }
+
+                    if (!string.IsNullOrEmpty(GenderComboBox.Text.Trim()))
+                    {
+                        user.Gender = GenderComboBox.Text.Trim();
+                    }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
                 MessageBox.Show("Данные обновлены \nВозврат в главное меню", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                 Exit_Click(sender, e);
             }

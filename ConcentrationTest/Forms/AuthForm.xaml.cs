@@ -20,22 +20,22 @@ namespace ConcentrationTest
         {
             string login = textBoxLogin.Text.Trim();
             string pass = textBoxPass.Password.Trim();
-            User user = null;
 
             using (AppContext db = new AppContext())
             {
-                user = db.Users.Where(b => b.Login == login && b.Password == pass).FirstOrDefault();
+                User user = db.Users.Where(b => b.Login == login && b.Password == pass).FirstOrDefault();
+
+                if (user != null)
+                {
+                    MessageBox.Show("Вы авторизовались", "Выполнено", MessageBoxButton.OK, MessageBoxImage.Information);
+                    UserSaver.user = user;                       // запоминаем логин для последующих манипуляций с данными
+                    MainMenu mainMenu = new MainMenu();
+                    Close();
+                    mainMenu.Show();
+                }
+                else
+                    MessageBox.Show("Логин или пароль введены неккоректно", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            if (user != null)
-            {
-                MessageBox.Show("Вы авторизовались", "Выполнено", MessageBoxButton.OK, MessageBoxImage.Information);
-                UserSaver.user = user;                       // запоминаем логин для последующих манипуляций с данными
-                MainMenu mainMenu = new MainMenu();
-                Close();
-                mainMenu.Show();
-            }
-            else
-                MessageBox.Show("Логин или пароль введены неккоректно", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

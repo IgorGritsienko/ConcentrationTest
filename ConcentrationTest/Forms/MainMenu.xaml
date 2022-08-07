@@ -17,7 +17,7 @@
                 <Button materialDesign:HintAssist.HelperText="wqghfjnfhjnhfjnhgnjhgnhge" Content="Пройти тестирование" FontSize="16" Margin="30 10" Click="Test_Click" Style="{StaticResource MaterialDesignFlatMidBgButton}"/>
                 <Button Content="Просмотреть статистику" FontSize="16" Margin="30 10" Click="Stat_Click"/>
                 <Button Content="Изменить данные" FontSize="16" Margin="30 10" Click="AccountInfo_Click"/>
-                <Button Content="На экран авторизации" FontSize="16" Margin="30 10" Click="Auth_Click"/>
+                <Button Content="На экран авторизации" FontSize="16" Margin="30 10" Click="Auth_Click" Cursor="Hand"/>
                 <Button Width="100" Content="Выход" Margin="0 40 0 0" Click="Exit_Click"></Button>
             </StackPanel>
         </Border>

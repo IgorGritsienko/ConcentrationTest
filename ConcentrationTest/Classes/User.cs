@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ConcentrationTest
 {
@@ -39,8 +40,6 @@ namespace ConcentrationTest
             set { gender = value; }
         }
 
-        public User() { }
-
         public User(string login, string password, string email, string birthdate, string gender)
         {
             this.login = login;
@@ -50,16 +49,18 @@ namespace ConcentrationTest
             this.gender = gender;
         }
 
-        public User GetCurrentUserInfo(AppContext db, int id)
+        public User() { }
+
+        public static User GetCurrentUserInfo(AppContext db, int id)
         {
             User user = db.Users.FirstOrDefault(b => b.id == id);      // берем всю информацию о пользователе с таким логином
             return user;
         }
-    }
 
-    // нужен для сохранения данных о пользователе при авторизации и последующей работы с приложением
-    class UserSaver
-    {
-        public static User user;
+        public static List<Stat> GetUserResults(AppContext db, int id)
+        {
+            List<Stat> userStats = db.Stats.Where(b => b.userId == id).ToList();   // вычленить все прошлые результаты для этого пользователя
+            return userStats;
+        }
     }
 }

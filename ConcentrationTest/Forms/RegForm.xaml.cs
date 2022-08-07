@@ -20,13 +20,9 @@ namespace ConcentrationTest
     /// </summary>
     public partial class RegForm : Window
     {
-        AppContext db;
-
         public RegForm()
         {
             InitializeComponent();
-
-            db = new AppContext();
         }
 
         private void ButtonRegClick(object sender, RoutedEventArgs e)
@@ -41,102 +37,104 @@ namespace ConcentrationTest
 
             bool error = false;
 
-            if (login.Length < 3)
+            using (AppContext db = new AppContext())
             {
-                textBoxLogin.ToolTip = "Логин должен быть не меньше 3 символов";
-                textBoxLogin.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
-                error = true;
-            }
-            else
-            {
-                if (db.Users.FirstOrDefault(p => p.Login == login) != null)     // если логин в бд уже есть
+                if (login.Length < 3)
                 {
-                    textBoxLogin.ToolTip = "Данный логин уже существует";
+                    textBoxLogin.ToolTip = "Логин должен быть не меньше 3 символов";
                     textBoxLogin.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
                     error = true;
                 }
                 else
                 {
-                    textBoxLogin.ToolTip = null;
-                    textBoxLogin.Background = System.Windows.Media.Brushes.Transparent;
+                    if (db.Users.FirstOrDefault(p => p.Login == login) != null)     // если логин в бд уже есть
+                    {
+                        textBoxLogin.ToolTip = "Данный логин уже существует";
+                        textBoxLogin.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
+                        error = true;
+                    }
+                    else
+                    {
+                        textBoxLogin.ToolTip = null;
+                        textBoxLogin.Background = System.Windows.Media.Brushes.Transparent;
+                    }
                 }
-            }
 
-            if (pass.Length < 5)
-            {
-                textBoxPass.ToolTip = "Пароль должен быть не меньше 5 символов";
-                textBoxPass.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
-                error = true;
-            }
-            else
-            {
-                textBoxPass.ToolTip = null; ;
-                textBoxPass.Background = System.Windows.Media.Brushes.Transparent;
-            }
-
-            if (email.Length < 5)
-            {
-                emailBox.ToolTip = "Email должен быть не меньше 5 символов";
-                emailBox.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
-                error = true;
-            }
-            else
-            {
-                if (!email.Contains('@'))
+                if (pass.Length < 5)
                 {
-                    emailBox.ToolTip = "Email должен содержать символ '@'";
+                    textBoxPass.ToolTip = "Пароль должен быть не меньше 5 символов";
+                    textBoxPass.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
+                    error = true;
+                }
+                else
+                {
+                    textBoxPass.ToolTip = null; ;
+                    textBoxPass.Background = System.Windows.Media.Brushes.Transparent;
+                }
+
+                if (email.Length < 5)
+                {
+                    emailBox.ToolTip = "Email должен быть не меньше 5 символов";
                     emailBox.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
                     error = true;
                 }
                 else
                 {
-                    if (!email.Contains('.'))
+                    if (!email.Contains('@'))
                     {
-                        emailBox.ToolTip = "Email должен содержать символ '.'";
+                        emailBox.ToolTip = "Email должен содержать символ '@'";
                         emailBox.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
                         error = true;
                     }
                     else
                     {
-                        emailBox.ToolTip = null;
-                        emailBox.Background = System.Windows.Media.Brushes.Transparent;
+                        if (!email.Contains('.'))
+                        {
+                            emailBox.ToolTip = "Email должен содержать символ '.'";
+                            emailBox.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
+                            error = true;
+                        }
+                        else
+                        {
+                            emailBox.ToolTip = null;
+                            emailBox.Background = System.Windows.Media.Brushes.Transparent;
+                        }
                     }
                 }
-            }
 
-            if (String.IsNullOrEmpty(birthdate))
-            {
-                datePicker.ToolTip = "Выберите дату рождения";
-                datePicker.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
-                error = true;
-            }
-            else
-            {
-                datePicker.ToolTip = null;
-                datePicker.Background = System.Windows.Media.Brushes.Transparent;
-            }
+                if (String.IsNullOrEmpty(birthdate))
+                {
+                    datePicker.ToolTip = "Выберите дату рождения";
+                    datePicker.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
+                    error = true;
+                }
+                else
+                {
+                    datePicker.ToolTip = null;
+                    datePicker.Background = System.Windows.Media.Brushes.Transparent;
+                }
 
-            if (String.IsNullOrEmpty(gender))
-            {
-                GenderComboBox.ToolTip = "Выберите свой пол";
-                GenderComboBox.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
-                error = true;
-            }
-            else
-            {
-                GenderComboBox.ToolTip = null;
-                GenderComboBox.Background = System.Windows.Media.Brushes.Transparent;
-            }
-            if (!error)                                                                 // если нет ошибок ввода, то добавить пользователя в бд
-            {
-                User user = new User(login, pass, email, birthdate, gender);
-                db.Users.Add(user);
-                db.SaveChanges();
+                if (String.IsNullOrEmpty(gender))
+                {
+                    GenderComboBox.ToolTip = "Выберите свой пол";
+                    GenderComboBox.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFB6C1");
+                    error = true;
+                }
+                else
+                {
+                    GenderComboBox.ToolTip = null;
+                    GenderComboBox.Background = System.Windows.Media.Brushes.Transparent;
+                }
+                if (!error)                                                                 // если нет ошибок ввода, то добавить пользователя в бд
+                {
+                    User user = new User(login, pass, email, birthdate, gender);
+                    db.Users.Add(user);
+                    db.SaveChanges();
 
-                MessageBox.Show("Регистрация прошла успешно.", "Выполнено", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Регистрация прошла успешно.", "Выполнено", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
-
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {

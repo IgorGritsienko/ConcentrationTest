@@ -12,21 +12,18 @@ namespace ConcentrationTest.Forms
     /// </summary>
     public partial class StatsForm : Window
     {
-        AppContext db;
-
         public StatsForm()
         {
             InitializeComponent();
 
-            db = new AppContext();
-
-            List<Stat> userResults = db.Stats.Where(b => b.userId == UserSaver.user.id).ToList();
-
-           // var userResults = userStats.GetUserResults(db, );
-
-            foreach (var stat in userResults)
+            using (AppContext db = new AppContext())
             {
-                dataGrid.Items.Add(new UserResultsHistory(Math.Round(stat.attentionConcentration, 2), Math.Round(stat.attentionSpan, 2), stat.testDate));   // добавляем в датагрид данные о результатах тестирования этого пользователя
+                List<Stat> userResults = User.GetUserResults(db, UserSaver.user.id);
+
+                foreach (var stat in userResults)
+                {
+                    dataGrid.Items.Add(new UserResultsHistory(Math.Round(stat.attentionConcentration, 2), Math.Round(stat.attentionSpan, 2), stat.testDate));   // добавляем в датагрид данные о результатах тестирования этого пользователя
+                }
             }
         }
 
@@ -65,18 +62,20 @@ namespace ConcentrationTest.Forms
                 _maxAge = 1000;
             else _maxAge = Convert.ToInt32(maxAge.Text);
 
-            Stat userStats = new Stat();
-            var (K, A) = userStats.AgregateData(db, sex, _minAge, _maxAge);     // вычисляем средние данные с учетом фильтров
+            using (AppContext db = new AppContext())
+            {
+                var (K, A) = Stat.AgregateData(db, sex, _minAge, _maxAge);     // вычисляем средние данные с учетом фильтров
 
-            if (double.IsNaN(K) || double.IsNaN(A))     // если данных нет
-            {
-                K_result.Text = "По выбранным фильтрам нет еще данных";
-                A_result.Text = "";
-            }   
-            else
-            {
-                K_result.Text = string.Format("Средние показатели концентрации внимания для выбранных параметров: {0,2:f}", K);
-                A_result.Text = string.Format("Средние показатели устойчивости внимания для выбранных параметров: {0,2:f}", A);
+                if (double.IsNaN(K) || double.IsNaN(A))     // если данных нет
+                {
+                    K_result.Text = "По выбранным фильтрам нет еще данных";
+                    A_result.Text = "";
+                }
+                else
+                {
+                    K_result.Text = string.Format("Средние показатели концентрации внимания для выбранных параметров: {0,2:f}", K);
+                    A_result.Text = string.Format("Средние показатели устойчивости внимания для выбранных параметров: {0,2:f}", A);
+                }
             }
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

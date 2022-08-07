@@ -30,7 +30,7 @@
 
             <Grid x:Name="testGridUI" MaxHeight="800" MaxWidth="800" Background="#e6e6fa"/>
 
-            <Button x:Name="Complete" Content="Готово" Width="170" FontSize="18" Margin="0 30 0 0" VerticalContentAlignment="Center" Click="Complete_Click"/>
+            <Button x:Name="Complete" Content="Готово" Width="170" FontSize="18" Margin="0 30 0 0" VerticalContentAlignment="Center" Click="Complete_Click" Cursor="Hand"/>
         </StackPanel>
     </Border>
 </Window>

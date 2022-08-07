@@ -14,6 +14,7 @@ namespace ConcentrationTest.Forms
         {
             InitializeComponent();
 
+
             foreach (TempStat ts in tempStats)                      // заносим все записи ститастики в таблицу
             {
                 dataGrid.Items.Add(new TestStatistics(ts.numCharViewed, ts.numCharRight, ts.numCharWrong, ts.time));

@@ -36,15 +36,11 @@ namespace ConcentrationTest
             }
         }
 
-        public List<Stat> GetUserResults(AppContext db, int id)
-        {
-            List<Stat> userStats = db.Stats.Where(b => b.userId == id).ToList();   // вычленить все прошлые результаты для этого пользователя
-            return userStats;
-        }
 
-        public (double K, double A) AgregateData(AppContext db, string sex, int minAge, int maxAge)
+        public static (double K, double A) AgregateData(AppContext db, string sex, int minAge, int maxAge)
         {
             List<User> usersFilteredSex;
+
 
             if (sex == "None")
             {
@@ -58,7 +54,7 @@ namespace ConcentrationTest
             List<int> usersToCount = new List<int>();                       // список конечных пользователей, у которых нужно брать статистику
 
             foreach (User user in usersFilteredSex)
-            {              
+            {
                 DateTime dateNow = DateTime.Now;                            // текущее время
                 DateTime birthdate = Convert.ToDateTime(user.Birthdate);    // дата рождения
                 birthdate = birthdate.AddDays(1);
@@ -67,7 +63,7 @@ namespace ConcentrationTest
 
                 TimeSpan span = dateNow - birthdate;                        // вычисляем разность в днях
                 int year = (zeroTime + span).Year - 1;                      // с помощью этого получаем разность в годах (с учетом месяцев и дней)
-            
+
                 if (minAge <= year && year <= maxAge)                       // если подходит под условие, то добавляем в список для дальнейшей работы
                 {
                     usersToCount.Add(user.id);
@@ -81,6 +77,7 @@ namespace ConcentrationTest
                 List<Stat> tmp = db.Stats.Where(b => b.userId == id).ToList();
                 usersStats.AddRange(tmp);                                   // добавить все подходящие записи от одного пользователя
             }
+
 
             double A = 0, K = 0;
 

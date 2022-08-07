@@ -17,13 +17,14 @@ namespace ConcentrationTest.Forms
 
         bool timeLeft = false;
 
-        DispatcherTimer testTimeLeft = new System.Windows.Threading.DispatcherTimer(DispatcherPriority.Normal);      // создание таймера для UI
+        DispatcherTimer testTimeLeft = new DispatcherTimer(DispatcherPriority.Normal);      // создание таймера для UI
 
         Test test = new Test();
 
         public TestForm(object sender, EventArgs e)
         {
             InitializeComponent();
+
             test.testData.testGrid = testGridUI;
             numberToFind.Text += test.numberToFind.ToString();
 
@@ -36,9 +37,10 @@ namespace ConcentrationTest.Forms
             testTimeLeft.Interval = new TimeSpan(0, 0, 0, 1);                // единицы измерение (сек)
 
             Complete.IsEnabled = false;
-      }
 
-        public void CreateGrid(Test.TestData testData)
+        }
+
+        public void CreateGrid(TestData testData)
         {
             // скрыть сетку с тестом и кнопку "готово" до начала теста
             testData.testGrid.Visibility = Visibility.Hidden;
@@ -61,10 +63,10 @@ namespace ConcentrationTest.Forms
 
             for (int i = 0; i < testData.cellCount; i++)
             {
-                Button button = new Button();
+                CustomButton button = new CustomButton();
 
                 int idx = testData.testGrid.Children.Add(button);
-                button = testData.testGrid.Children[idx] as Button;
+                button = testData.testGrid.Children[idx] as CustomButton;
 
                 button.FontSize = 20;
                 button.Content = testData.NumberToFind();     // надпись на кнопке будет от 0 до 9
@@ -87,9 +89,9 @@ namespace ConcentrationTest.Forms
             }
         }
 
-        public void RecreateGrid(Test.TestData testData) // перегенерировать сетку
+        public void RecreateGrid(TestData testData) // перегенерировать сетку
         {
-            foreach (Button btn in testData.testGrid.Children)
+            foreach (CustomButton btn in testData.testGrid.Children)
             {
                 btn.Content = testData.NumberToFind();
                 btn.Background = Brushes.Transparent;
@@ -121,7 +123,7 @@ namespace ConcentrationTest.Forms
             form.ShowDialog();
 
             Complete.IsEnabled = false;
-            test.testData.testGrid.IsEnabled = false;
+            //test.testData.testGrid.IsEnabled = false;
             Start.Content = "Сбросить";
         }
 
@@ -153,8 +155,8 @@ namespace ConcentrationTest.Forms
                 isTestActive = false;
                 Rules.IsEnabled = true;
               
-                test.numberToFind = test.testData.rand.Next(0, 10);            // запоминаем число, которое пользователю необходимо искать
-                numberToFind.Text = numberToFind.Text.Substring(0, numberToFind.Text.Length - 1) + test.numberToFind.ToString();       // изменить число для поиска
+                test.numberToFind = test.testData.rand.Next(0, 10);            // запоминаем цифру, которую пользователю необходимо искать
+                numberToFind.Text = numberToFind.Text.Substring(0, numberToFind.Text.Length - 1) + test.numberToFind.ToString();       // изменить цифру для поиска
 
                 test.tempStats.Clear();                                     // убрать старую статистику
 
@@ -184,18 +186,18 @@ namespace ConcentrationTest.Forms
         public void Button_Click(object sender, RoutedEventArgs e)             // вызывается при нажатии на цифру из теста
                                                                                 // функция нужна для изменения цвета фона кнопки с цифрой
         {
-            Button btn = sender as Button;
+            CustomButton btn = sender as CustomButton;
 
-            if (btn.Background == Brushes.Transparent)
-            //if (btn.state == CustomButton.State.unpressed)     // индикатор для обозначения отмеченной кнопки
+            //if (btn.Background == Brushes.Transparent)
+            if (btn.state == CustomButton.State.unpressed)     // индикатор для обозначения отмеченной кнопки
             {
                 btn.Background = Brushes.Orange;
-                //btn.state = CustomButton.State.pressed;
+                btn.state = CustomButton.State.pressed;
             }
             else
             {
                 btn.Background = Brushes.Transparent;
-              //  btn.state = CustomButton.State.unpressed;
+                btn.state = CustomButton.State.unpressed;
             }
 
             if ((int)btn.GetValue(Grid.RowProperty) >= test.maxViewedRow)
