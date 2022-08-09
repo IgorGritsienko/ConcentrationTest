@@ -41,7 +41,6 @@ namespace ConcentrationTest
         {
             List<User> usersFilteredSex;
 
-
             if (sex == "None")
             {
                 usersFilteredSex = db.Users.ToList();                       // если пол не указан, берем весь список
@@ -91,6 +90,6 @@ namespace ConcentrationTest
             A /= usersStats.Count;
 
             return (K, A);
-        }   //  вычислить средние данные по указанной группе
+        } 
     }
 }

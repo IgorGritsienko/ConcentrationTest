@@ -105,6 +105,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppContext.cs" />
+    <Compile Include="Classes\TestStatistics.cs" />
+    <Compile Include="Classes\UserHistoryResults.cs" />
     <Compile Include="Classes\UserSaver.cs" />
     <Compile Include="CustomButton.cs" />
     <Compile Include="Forms\RulesForm.xaml.cs">
@@ -122,7 +124,6 @@
     <Compile Include="Forms\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\GridInfo.cs" />
     <Compile Include="Classes\Stat.cs" />
     <Compile Include="Classes\Test.cs" />
     <Compile Include="Classes\User.cs" />

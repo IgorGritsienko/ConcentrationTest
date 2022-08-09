@@ -170,8 +170,6 @@ namespace ConcentrationTest
             }
             return (C, PC, OC);
         }
-
-
     }
 
     public class TestData

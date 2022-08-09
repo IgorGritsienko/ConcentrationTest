@@ -62,5 +62,6 @@ namespace ConcentrationTest
             List<Stat> userStats = db.Stats.Where(b => b.userId == id).ToList();   // вычленить все прошлые результаты для этого пользователя
             return userStats;
         }
+
     }
 }
